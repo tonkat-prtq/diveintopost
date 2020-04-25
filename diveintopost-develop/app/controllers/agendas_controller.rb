@@ -24,8 +24,6 @@ class AgendasController < ApplicationController
 
   # アジェンダ削除機能を追加 by kato
   def destroy
-    binding.irb
-
     team = Team.friendly.find(current_user.keep_team_id)
     asign = Assign.find(current_user.id)
 
