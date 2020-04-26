@@ -13,10 +13,15 @@ class AssignsController < ApplicationController
   end
 
   def destroy
+    team = Team.friendly.find(params[:team_id])
     assign = Assign.find(params[:id])
-    destroy_message = assign_destroy(assign, assign.user)
-
-    redirect_to team_url(params[:team_id]), notice: destroy_message
+    if current_user.id == team.owner.id || current_user.id == assign.user_id
+      assign = Assign.find(params[:id])
+      destroy_message = assign_destroy(assign, assign.user)
+      redirect_to team_url(params[:team_id]), notice: destroy_message
+    else
+      redirect_to team_url(params[:team_id]), notice: "あなたに離脱指示権限はありません。"
+    end
   end
 
   private
